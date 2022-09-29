@@ -10,7 +10,7 @@ Parameters:
     MaxLength: "16"
     MinLength: "1"
     Type: String
-    Default: wonder # TODO change
+    Default: ${{ secrets.DATABASE_USERNAME }}
   DatabasePassword:
     AllowedPattern: "[a-zA-Z0-9]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
@@ -19,7 +19,7 @@ Parameters:
     MinLength: "8"
     NoEcho: "true"
     Type: String
-    Default: password # TODO change
+    Default: ${{ secrets.DATABASE_PASSWORD }}
 
 Mappings:
   "007633048842":
