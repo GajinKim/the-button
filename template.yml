@@ -48,39 +48,11 @@ Resources:
       SubnetIds:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
 
-  DatabaseCluster:
-    Type: AWS::RDS::DBCluster
-    Properties:
-      Engine: mysql
-      EngineVersion: MySQL 8.0
-      MasterUsername: !Ref "DatabaseUsername"
-      MasterUserPassword: !Ref "DatabasePassword"
-      BackupRetentionPeriod:
-        !FindInMap [
-          !Ref "AWS::AccountId",
-          !Ref "AWS::Region",
-          "BackupRetentionPeriod",
-        ]
-      PreferredBackupWindow: 01:00-02:00
-      PreferredMaintenanceWindow: mon:03:00-mon:04:00
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
-      VpcSecurityGroupIds:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
-
   DatabasePrimaryInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: mysql
-      DBClusterIdentifier: !Ref "DatabaseCluster"
-      DBInstanceClass:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
-      PubliclyAccessible: True
-
-  DatabaseReplicaInstance:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      Engine: mysql
+      Engine: MySQL
+      EngineVersion: "8.0.16"
       DBClusterIdentifier: !Ref "DatabaseCluster"
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
