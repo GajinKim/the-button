@@ -3,13 +3,16 @@ Transform: "AWS::Serverless-2016-10-31"
 Description: Provision AWS resources for The Button App
 
 Parameters:
-  DatabaseUsername:
+  DBUsername:
+    NoEcho: "true"
     Type: String
     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
-  DatabasePassword:
+  DBPassword:
     NoEcho: "true"
     Type: String
     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
+  DBAllocatedStorage:
+    Default: "20" # 20 GiB is the maximum allotted amount in AWS Free Tier
 
 Mappings:
   "007633048842":
@@ -32,13 +35,13 @@ Metadata:
       - Label:
           default: Database Configuration
         Parameters:
-          - DatabaseUsername
-          - DatabasePassword
+          - DBUsername
+          - DBPassword
     ParameterLabels:
       DatabaseUsername:
-        default: !Ref DatabaseUsername
+        default: !Ref DBUsername
       DatabasePassword:
-        default: !Ref DatabasePassword
+        default: !Ref DBPassword
 
 Resources:
   DatabaseSubnetGroup:
@@ -52,12 +55,10 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       Engine: MySQL
-      MasterUsername: !Ref DatabaseUsername
-      MasterUserPassword: !Ref DatabasePassword
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      DBSecurityGroups:
-        - sg-0adf6a5110fa4c2a9
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+      DBSubnetGroupName: !Ref DatabaseSubnetGroup
       PubliclyAccessible: True
-      AllocatedStorage: "20"
+      AllocatedStorage: !Ref DBAllocatedStorage
