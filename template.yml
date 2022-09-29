@@ -60,8 +60,8 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      DBSecurityGroups:
-        - sg-0365b4fc7d010bdb4
+      VpcSecurityGroupIds:
+        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
