@@ -1,0 +1,34 @@
+name: ci-cd
+
+on:
+  push:
+    branches: ["master"]
+
+permissions:
+  id-token: write
+  contents: read
+  deployments: write
+
+env:
+  REGION: us-east-1
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      STACK_NAME: The Button App
+      STACK_NAME_PASCAL_CASE: TheButtonApp
+    steps:
+      - name: Checkout Github Repo
+        uses: actions/checkout@master
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.ARN_AWS_IAM_ROLE }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Deploy ${{ env.STACK_NAME }} CloudFormation Stack
+        run: |
+          sam deploy --stack-name $STACK_NAME_PASCAL_CASE --region $REGION --resolve-s3 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
