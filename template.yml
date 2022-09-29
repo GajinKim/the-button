@@ -12,6 +12,7 @@ Parameters:
     Type: String
     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
   DBAllocatedStorage:
+    Type: Number
     Default: "20" # 20 GiB is the maximum allotted amount in AWS Free Tier
 
 Mappings:
