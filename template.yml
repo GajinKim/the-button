@@ -2,9 +2,9 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: Provision AWS resources for The Button App
 
-Output:
-  TestUsername:
-    Value: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
+# Output:
+#   TestUsername:
+#     Value: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
 
 Parameters:
   DatabaseUsername:
