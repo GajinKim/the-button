@@ -26,7 +26,7 @@ Mappings:
         - subnet-00a476a971ffb8a92
         - subnet-0c1f63a07540c9663
       SecurityGroups:
-        - sg-0adf6a5110fa4c2a9
+        - sg-0365b4fc7d010bdb4
       InstanceType: db.t3.micro
       BackupRetentionPeriod: 7
 
@@ -60,6 +60,8 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
+      DBSecurityGroups:
+        - sg-0365b4fc7d010bdb4
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
-      PubliclyAccessible: True
       AllocatedStorage: !Ref DBAllocatedStorage
+      PubliclyAccessible: True
