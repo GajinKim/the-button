@@ -2,14 +2,14 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: Provision AWS resources for The Button App
 
-Parameters:
-  DatabaseUsername:
-    Type: String
-    Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
-  DatabasePassword:
-    NoEcho: "true"
-    Type: String
-    Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
+# Parameters:
+#   DatabaseUsername:
+#     Type: String
+#     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
+#   DatabasePassword:
+#     NoEcho: "true"
+#     Type: String
+#     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
 
 Mappings:
   "007633048842":
@@ -26,19 +26,19 @@ Mappings:
       InstanceType: db.t2.micro # this is just for testing, need to change eventually
       BackupRetentionPeriod: 7
 
-Metadata:
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-      - Label:
-          default: Database Configuration
-        Parameters:
-          - DatabaseUsername
-          - DatabasePassword
-    ParameterLabels:
-      DatabaseUsername:
-        default: !Ref DatabaseUsername
-      DatabasePassword:
-        default: !Ref DatabasePassword
+# Metadata:
+#   AWS::CloudFormation::Interface:
+#     ParameterGroups:
+#       - Label:
+#           default: Database Configuration
+#         Parameters:
+#           - DatabaseUsername
+#           - DatabasePassword
+#     ParameterLabels:
+#       DatabaseUsername:
+#         default: !Ref DatabaseUsername
+#       DatabasePassword:
+#         default: !Ref DatabasePassword
 
 Resources:
   DatabaseSubnetGroup:
@@ -52,8 +52,8 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       Engine: MySQL
-      MasterUsername: !Ref "DatabaseUsername"
-      MasterUserPassword: !Ref "DatabasePassword"
+      MasterUsername: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
+      MasterUserPassword: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
