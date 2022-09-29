@@ -2,98 +2,102 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: Provision AWS resources for The Button App
 
-Parameters:
-  DatabaseUsername:
-    AllowedPattern: "[a-zA-Z0-9]+"
-    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
-    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
-    MaxLength: "16"
-    MinLength: "1"
-    Type: String
-    Default: "{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonDBSecret-rndIVh:SecretString:username}}"
-  DatabasePassword:
-    AllowedPattern: "[a-zA-Z0-9]+"
-    ConstraintDescription: must be between 8 to 41 alphanumeric characters.
-    Description: The database admin account password, between 8 to 41 alphanumeric characters.
-    MaxLength: "41"
-    MinLength: "8"
-    NoEcho: "true"
-    Type: String
-    Default: "{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonDBSecret-rndIVh:SecretString:password}}"
+Output:
+  TestUsername:
+    Value: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
 
-Mappings:
-  "007633048842":
-    us-east-1:
-      Subnets:
-        - subnet-0e095e2769d23ca5d
-        - subnet-01df7bbd76be6caa1
-        - subnet-03fc03e25c93956a9
-        - subnet-02bab21ccb7ee2e0e
-        - subnet-00a476a971ffb8a92
-        - subnet-0c1f63a07540c9663
-      SecurityGroups:
-        - sg-0adf6a5110fa4c2a9
-      InstanceType: db.t3.small # this is just for testing, need to change eventually
-      # InstanceType: db.r4.large
-      BackupRetentionPeriod: 7
+# Parameters:
+#   DatabaseUsername:
+#     AllowedPattern: "[a-zA-Z0-9]+"
+#     ConstraintDescription: must be between 1 to 16 alphanumeric characters.
+#     Description: The database admin account user name, between 1 to 16 alphanumeric characters.
+#     MaxLength: "16"
+#     MinLength: "1"
+#     Type: String
+#     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
+#   DatabasePassword:
+#     AllowedPattern: "[a-zA-Z0-9]+"
+#     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
+#     Description: The database admin account password, between 8 to 41 alphanumeric characters.
+#     MaxLength: "41"
+#     MinLength: "8"
+#     NoEcho: "true"
+#     Type: String
+#     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
 
-Metadata:
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-      - Label:
-          default: Database Configuration
-        Parameters:
-          - DatabaseUsername
-          - DatabasePassword
-    ParameterLabels:
-      DatabaseUsername:
-        default: !Ref DatabaseUsername
-      DatabasePassword:
-        default: !Ref DatabasePassword
+# Mappings:
+#   "007633048842":
+#     us-east-1:
+#       Subnets:
+#         - subnet-0e095e2769d23ca5d
+#         - subnet-01df7bbd76be6caa1
+#         - subnet-03fc03e25c93956a9
+#         - subnet-02bab21ccb7ee2e0e
+#         - subnet-00a476a971ffb8a92
+#         - subnet-0c1f63a07540c9663
+#       SecurityGroups:
+#         - sg-0adf6a5110fa4c2a9
+#       InstanceType: db.t3.small # this is just for testing, need to change eventually
+#       # InstanceType: db.r4.large
+#       BackupRetentionPeriod: 7
 
-Resources:
-  DatabaseSubnetGroup:
-    Type: AWS::RDS::DBSubnetGroup
-    Properties:
-      DBSubnetGroupDescription: CloudFormation managed DB subnet group.
-      SubnetIds:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
+# Metadata:
+#   AWS::CloudFormation::Interface:
+#     ParameterGroups:
+#       - Label:
+#           default: Database Configuration
+#         Parameters:
+#           - DatabaseUsername
+#           - DatabasePassword
+#     ParameterLabels:
+#       DatabaseUsername:
+#         default: !Ref DatabaseUsername
+#       DatabasePassword:
+#         default: !Ref DatabasePassword
 
-  DatabaseCluster:
-    Type: AWS::RDS::DBCluster
-    Properties:
-      Engine: aurora-mysql
-      EngineVersion: "5.7.mysql_aurora.2.08.3"
-      MasterUsername: !Ref "DatabaseUsername"
-      MasterUserPassword: !Ref "DatabasePassword"
-      BackupRetentionPeriod:
-        !FindInMap [
-          !Ref "AWS::AccountId",
-          !Ref "AWS::Region",
-          "BackupRetentionPeriod",
-        ]
-      PreferredBackupWindow: 01:00-02:00
-      PreferredMaintenanceWindow: mon:03:00-mon:04:00
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
-      VpcSecurityGroupIds:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
+# Resources:
+#   DatabaseSubnetGroup:
+#     Type: AWS::RDS::DBSubnetGroup
+#     Properties:
+#       DBSubnetGroupDescription: CloudFormation managed DB subnet group.
+#       SubnetIds:
+#         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
 
-  DatabasePrimaryInstance:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      Engine: aurora-mysql
-      DBClusterIdentifier: !Ref "DatabaseCluster"
-      DBInstanceClass:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
-      PubliclyAccessible: True
+#   DatabaseCluster:
+#     Type: AWS::RDS::DBCluster
+#     Properties:
+#       Engine: aurora-mysql
+#       EngineVersion: "5.7.mysql_aurora.2.08.3"
+#       MasterUsername: !Ref "DatabaseUsername"
+#       MasterUserPassword: !Ref "DatabasePassword"
+#       BackupRetentionPeriod:
+#         !FindInMap [
+#           !Ref "AWS::AccountId",
+#           !Ref "AWS::Region",
+#           "BackupRetentionPeriod",
+#         ]
+#       PreferredBackupWindow: 01:00-02:00
+#       PreferredMaintenanceWindow: mon:03:00-mon:04:00
+#       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+#       VpcSecurityGroupIds:
+#         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
 
-  DatabaseReplicaInstance:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      Engine: aurora-mysql
-      DBClusterIdentifier: !Ref "DatabaseCluster"
-      DBInstanceClass:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
-      PubliclyAccessible: True
+#   DatabasePrimaryInstance:
+#     Type: AWS::RDS::DBInstance
+#     Properties:
+#       Engine: aurora-mysql
+#       DBClusterIdentifier: !Ref "DatabaseCluster"
+#       DBInstanceClass:
+#         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
+#       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+#       PubliclyAccessible: True
+
+#   DatabaseReplicaInstance:
+#     Type: AWS::RDS::DBInstance
+#     Properties:
+#       Engine: aurora-mysql
+#       DBClusterIdentifier: !Ref "DatabaseCluster"
+#       DBInstanceClass:
+#         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
+#       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+#       PubliclyAccessible: True
