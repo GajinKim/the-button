@@ -45,14 +45,21 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
-  DatabaseSubnetGroup:
+  DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
       DBSubnetGroupDescription: CloudFormation managed DB subnet group.
       SubnetIds:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
 
-  DatabasePrimaryInstance:
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      DBSecurityGroupIngress:
+        - EC2SecurityGroupId: sg-0365b4fc7d010bdb4
+          EC2SecurityGroupOwnerId: 007633048842
+
+  DBPrimaryInstance:
     Type: AWS::RDS::DBInstance
     Properties:
       Engine: MySQL
@@ -60,8 +67,8 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      VpcSecurityGroupIds:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
-      DBSubnetGroupName: !Ref DatabaseSubnetGroup
+      DBSecurityGroups:
+        - Ref: DBSecurityGroup
+      DBSubnetGroupName: !Ref DBSubetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
