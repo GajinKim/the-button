@@ -23,7 +23,7 @@ Mappings:
         - subnet-0c1f63a07540c9663
       SecurityGroups:
         - sg-0adf6a5110fa4c2a9
-      InstanceType: db.t2.micro # this is just for testing, need to change eventually
+      InstanceType: db.t3.micro # this is just for testing, need to change eventually
       BackupRetentionPeriod: 7
 
 # Metadata:
@@ -52,8 +52,8 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       Engine: MySQL
-      MasterUsername: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
-      MasterUserPassword: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
+      MasterUsername: username
+      MasterUserPassword: password
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
