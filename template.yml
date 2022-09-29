@@ -24,7 +24,6 @@ Mappings:
       SecurityGroups:
         - sg-0adf6a5110fa4c2a9
       InstanceType: db.t3.micro # this is just for testing, need to change eventually
-      # InstanceType: db.r4.large
       BackupRetentionPeriod: 7
 
 Metadata:
@@ -52,8 +51,8 @@ Resources:
   DatabaseCluster:
     Type: AWS::RDS::DBCluster
     Properties:
-      Engine: aurora-mysql
-      EngineVersion: "5.7.mysql_aurora.2.08.3"
+      Engine: mysql
+      EngineVersion: MySQL 8.0
       MasterUsername: !Ref "DatabaseUsername"
       MasterUserPassword: !Ref "DatabasePassword"
       BackupRetentionPeriod:
@@ -71,7 +70,7 @@ Resources:
   DatabasePrimaryInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: aurora-mysql
+      Engine: mysql
       DBClusterIdentifier: !Ref "DatabaseCluster"
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
@@ -81,7 +80,7 @@ Resources:
   DatabaseReplicaInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: aurora-mysql
+      Engine: mysql
       DBClusterIdentifier: !Ref "DatabaseCluster"
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
