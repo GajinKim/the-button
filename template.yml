@@ -53,7 +53,6 @@ Resources:
     Properties:
       Engine: MySQL
       EngineVersion: "8.0.16"
-      DBClusterIdentifier: !Ref "DatabaseCluster"
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
