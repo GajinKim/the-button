@@ -23,7 +23,7 @@ Mappings:
         - subnet-0c1f63a07540c9663
       SecurityGroups:
         - sg-0adf6a5110fa4c2a9
-      InstanceType: db.t3.small # this is just for testing, need to change eventually
+      InstanceType: db.t3.micro # this is just for testing, need to change eventually
       # InstanceType: db.r4.large
       BackupRetentionPeriod: 7
 
