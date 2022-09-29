@@ -45,10 +45,10 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
+  # RDS
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
-      DBSubnetGroupDescription: CloudFormation managed DB subnet group.
       SubnetIds:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
 
@@ -69,6 +69,6 @@ Resources:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSecurityGroups:
         - Ref: DBSecurityGroup
-      DBSubnetGroupName: !Ref DBSubetGroup
+      # DBSubnetGroupName: !Ref DBSubetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
