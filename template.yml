@@ -13,7 +13,7 @@ Parameters:
     Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
   DBAllocatedStorage:
     Type: Number
-    Default: "20" # 20 GiB is the maximum allotted amount in AWS Free Tier
+    Default: "20"
 
 Mappings:
   "007633048842":
@@ -45,7 +45,6 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
-  # RDS
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
