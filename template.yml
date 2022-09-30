@@ -46,7 +46,7 @@ Metadata:
 
 Resources:
   # Serverless
-  GetAllPokemonFunction:
+  CreateButtonCounterTableFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: lambda_functions/
