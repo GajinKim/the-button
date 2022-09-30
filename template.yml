@@ -50,14 +50,14 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: lambda_functions/
-      Handler: handler.get_all_pokemon
+      Handler: handler.create_button_counter_table
       Runtime: python3.10
       Events:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /pokemon
-            Method: get
+            Path: /button_counter
+            Method: post
 
   # RDS
   DBSubnetGroup:
