@@ -70,6 +70,6 @@ Resources:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSecurityGroups:
         - Ref: DBSecurityGroup
-      DBSubnetGroupName: !Ref DBSubetGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
