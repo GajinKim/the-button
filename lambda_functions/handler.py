@@ -1,5 +1,4 @@
 from package import pymysql
-import pymysql
 import boto3
 import botocore
 import json
