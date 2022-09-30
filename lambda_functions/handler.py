@@ -1,12 +1,9 @@
 from package import pymysql
-# Use this code snippet in your app.
-# If you need more information about configurations or implementing the sample code, visit the AWS docs:   
-# https://aws.amazon.com/developers/getting-started/python/
+import json
 
 import boto3
 import base64
 from botocore.exceptions import ClientError
-
 
 def get_secret():
     secret_name = "TheButtonDBSecret"
@@ -37,21 +34,24 @@ def get_secret():
         if 'SecretString' in get_secret_value_response:
             secret = get_secret_value_response['SecretString']
         else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-    # Configuration endpoints
-    endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-    username = secret['username']
-    password = secret['password']
-    database_name = "the_button"
+    return json.loads(secret)  # returns the secret as dictionary
 
-    # Connection
-    connection = pymysql.connect(
-        host=endpoint, user=username, password=password, db=database_name
-    )
+# Configuration endpoints
+endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
+username = get_secret()['username']
+password = get_secret()['password']
+database_name = "the_button"
 
-    def create_button_counter_table(event, context):
-        cursor = connection.cursor()
-        cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
-        connection.commit()
-        return {"statusCode": 201, "body": "Successfuly created button_counter table!"}
+
+# Connection
+connection = pymysql.connect(
+    host=endpoint, user=username, password=password, db=database_name
+)
+
+def create_button_counter_table(event, context):
+    cursor = connection.cursor()
+    cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
+    connection.commit()
+    return {"statusCode": 201, "body": "Successfuly created button_counter table!"}
