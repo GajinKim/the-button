@@ -1,10 +1,5 @@
-from package import pymysql
-import boto3
-import botocore
+from package import pymysql, boto3
 import json
-import random
-import time
-import os
 from botocore.exceptions import ClientError
 
 # connection configurations
@@ -60,25 +55,6 @@ def openConnection():
             connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
     except Exception as e:
         raise e
-
-    # connection = pymysql.connect(
-    #     host=endpoint, user=username, password=password, db=database_name
-    # )
-
-    # return json.loads(secret)  # returns the secret as dictionary
-
-# Configuration endpoints
-# secret = get_secret()
-
-# endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-# username = 'notapokisimp'
-# password = secret["password"]
-# database_name = "the_button"
-
-# # Connection
-# connection = pymysql.connect(
-#     host=endpoint, user=username, password=password, db=database_name
-# )
 
 def create_button_counter_table(event, context):
     try:
