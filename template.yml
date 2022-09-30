@@ -51,10 +51,10 @@ Resources:
       Name: TheButtonSecrets
       Description: Stores DB Username and Password
       GenerateSecretString:
-        SecretStringTemplate: '{"username": "pokisimp"}'
+        SecretStringTemplate: '{"username": "notapokisimp"}'
         GenerateStringKey: "password"
         PasswordLength: 30
-        ExcludeCharacters: '"@/\'
+        ExcludeCharacters: '"@/\()[]{}|-'
 
   # Serverless
   CreateButtonCounterTableFunction:
