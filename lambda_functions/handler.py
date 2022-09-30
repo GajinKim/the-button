@@ -13,12 +13,14 @@ endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.
 username = 'notapokisimp'
 password = None
 database_name = "the_button"
+
+secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSecrets-HgAPc3"
+region_name = "us-east-1"
 connection = None
 
 def openConnection():
-    secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSecrets-HgAPc3"
-    region_name = "us-east-1"
-
+    global connection
+    password = "None"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -54,13 +56,9 @@ def openConnection():
 
     try:
         if (connection is None):
-            connection = pymysql.connect(
-                host=endpoint, user=username, password=password, db=database_name, connect_timeout=5
-            )
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
         elif (not connection.open):
-            connection = pymysql.connect(
-                host=endpoint, user=username, password=password, db=database_name, connect_timeout=5
-            )
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
     except Exception as e:
         raise e
 
