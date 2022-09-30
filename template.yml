@@ -69,7 +69,7 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
-      VpcSecurityGroupIds:
+      VPCSecurityGroups:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
         # DBSecurityGroups:
       #   - !Ref DBSecurityGroup
