@@ -12,7 +12,6 @@ def get_secret():
     secret_name = "TheButtonDBSecret"
     region_name = "us-east-1"
 
-    # Create a Secrets Manager client
     session = boto3.session.Session()
     client = session.client(
         service_name='secretsmanager',
@@ -22,6 +21,7 @@ def get_secret():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
+
     except ClientError as e:
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             raise e
@@ -41,8 +41,8 @@ def get_secret():
 
 # Configuration endpoints
 endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-username = get_secret()['username']
-password = get_secret()['password']
+username = get_secret()['SecretString']['username']
+password = get_secret()['SecretString']['password']
 database_name = "the_button"
 
 # Connection
