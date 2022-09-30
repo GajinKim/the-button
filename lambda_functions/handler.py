@@ -82,8 +82,16 @@ def openConnection():
 # )
 
 def create_button_counter_table(event, context):
-    openConnection()
-    cursor = connection.cursor()
-    cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
-    connection.commit()
-    return { "statusCode": 201, "body": "Successfuly created button_counter table!" }
+    try:
+        openConnection()
+        cursor = connection.cursor()
+        cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
+        connection.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+
+    response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
+    return response
