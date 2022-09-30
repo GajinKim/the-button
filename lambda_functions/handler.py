@@ -1,7 +1,11 @@
 from package import pymysql
-import json
+import pymysql
 import boto3
-import base64
+import botocore
+import json
+import random
+import time
+import os
 from botocore.exceptions import ClientError
 
 # connection configurations
@@ -80,6 +84,7 @@ def openConnection():
 # )
 
 def create_button_counter_table(event, context):
+    openConnection()
     cursor = connection.cursor()
     cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
     connection.commit()
