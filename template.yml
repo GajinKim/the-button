@@ -46,11 +46,11 @@ Metadata:
 
 Resources:
   # RDS
-  DBSubnetGroup:
-    Type: AWS::RDS::DBSubnetGroup
-    Properties:
-      SubnetIds:
-        !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
+  # DBSubnetGroup:
+  #   Type: AWS::RDS::DBSubnetGroup
+  #   Properties:
+  #     SubnetIds:
+  #       !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "Subnets"]
 
   DBSecurityGroup:
     Type: AWS::RDS::DBSecurityGroup
