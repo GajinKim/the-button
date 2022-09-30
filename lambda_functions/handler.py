@@ -39,10 +39,13 @@ def get_secret():
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
+secret = get_secret()
+print(secret)
+
 # Configuration endpoints
 endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-username = get_secret()['SecretString']['username']
-password = get_secret()['SecretString']['password']
+username = secret['SecretString']['username']
+password = secret['SecretString']['password']
 database_name = "the_button"
 
 # Connection
