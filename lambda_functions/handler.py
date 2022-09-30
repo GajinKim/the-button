@@ -39,22 +39,19 @@ def get_secret():
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-secret = get_secret()
-print(secret)
+    # Configuration endpoints
+    endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
+    username = secret['SecretString']['username']
+    password = secret['SecretString']['password']
+    database_name = "the_button"
 
-# Configuration endpoints
-endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-username = secret['SecretString']['username']
-password = secret['SecretString']['password']
-database_name = "the_button"
+    # Connection
+    connection = pymysql.connect(
+        host=endpoint, user=username, password=password, db=database_name
+    )
 
-# Connection
-connection = pymysql.connect(
-    host=endpoint, user=username, password=password, db=database_name
-)
-
-def create_button_counter_table(event, context):
-    cursor = connection.cursor()
-    cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
-    connection.commit()
-    return {"statusCode": 201, "body": "Successfuly created button_counter table!"}
+    def create_button_counter_table(event, context):
+        cursor = connection.cursor()
+        cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
+        connection.commit()
+        return {"statusCode": 201, "body": "Successfuly created button_counter table!"}
