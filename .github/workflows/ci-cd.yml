@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     env:
-      STACK_NAME: The Button App
-      STACK_NAME_PASCAL_CASE: TheButtonApp
+      STACK_NAME: The Button
+      STACK_NAME_PASCAL_CASE: TheButton
     steps:
       - name: Checkout Github Repo
         uses: actions/checkout@master

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
-Description: Provision AWS resources for The Button App
+Description: Provision AWS resources for The Button
 
 Parameters:
   DBUsername:
@@ -96,8 +96,6 @@ Resources:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       VPCSecurityGroups:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "SecurityGroups"]
-        # DBSecurityGroups:
-      #   - !Ref DBSecurityGroup
       DBSubnetGroupName: !Ref DBSubnetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
