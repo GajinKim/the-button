@@ -58,8 +58,7 @@ Resources:
     Properties:
       GroupDescription: Database Security Group managed by Cloudformation
       DBSecurityGroupIngress:
-        - 
-          EC2SecurityGroupId: "sg-0365b4fc7d010bdb4"
+        - EC2SecurityGroupId: "sg-0365b4fc7d010bdb4"
           EC2SecurityGroupOwnerId: "007633048842"
 
   DBPrimaryInstance:
@@ -71,7 +70,7 @@ Resources:
       DBInstanceClass:
         !FindInMap [!Ref "AWS::AccountId", !Ref "AWS::Region", "InstanceType"]
       DBSecurityGroups:
-        - Ref: DBSecurityGroup
+        - !Ref DBSecurityGroup
       DBSubnetGroupName: !Ref DBSubnetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
