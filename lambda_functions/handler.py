@@ -1,10 +1,13 @@
 from package import pymysql
 import json
-
 import boto3
 import base64
+import logging
 from botocore.exceptions import ClientError
 
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def get_secret():
     secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSecrets-HgAPc3"
@@ -34,8 +37,10 @@ def get_secret():
             raise e
     else:
         if 'SecretString' in get_secret_value_response:
+            logger.info("Inside string response...")
             secret = get_secret_value_response['SecretString']
         else:
+            logger.info("Inside binary response...")
             secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
     return json.loads(secret)  # returns the secret as dictionary
