@@ -22,6 +22,13 @@ jobs:
       - name: Checkout Github Repo
         uses: actions/checkout@master
 
+      - name: Configure Github Secrets
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          nbdev_test_nbs
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

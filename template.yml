@@ -45,6 +45,20 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
+  # Serverless
+  GetAllPokemonFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.get_all_pokemon
+      Runtime: python3.10
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /pokemon
+            Method: get
+
   # RDS
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
