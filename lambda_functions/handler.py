@@ -38,7 +38,7 @@ def get_secret():
         else:
             secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-    return json.loads(secret)  # returns the secret as dictionary
+    return secret
 
 # Configuration endpoints
 endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
