@@ -41,8 +41,8 @@ def get_secret():
 
     # Configuration endpoints
     endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
-    username = secret['SecretString']['username']
-    password = secret['SecretString']['password']
+    username = secret['username']
+    password = secret['password']
     database_name = "the_button"
 
     # Connection
