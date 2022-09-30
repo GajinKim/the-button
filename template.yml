@@ -51,7 +51,7 @@ Resources:
     Properties:
       CodeUri: lambda_functions/
       Handler: handler.create_button_counter_table
-      Runtime: python3.10
+      Runtime: python3.9
       Events:
         HelloWorld:
           Type: Api
