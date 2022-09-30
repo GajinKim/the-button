@@ -6,11 +6,11 @@ Parameters:
   DBUsername:
     NoEcho: "true"
     Type: String
-    Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:username}}"
+    Default: "{{resolve:secretsmanager:TheButtonSecrets:SecretString:username}}"
   DBPassword:
     NoEcho: "true"
     Type: String
-    Default: "{{resolve:secretsmanager:TheButtonDBSecret:SecretString:password}}"
+    Default: "{{resolve:secretsmanager:TheButtonSecrets:SecretString:password}}"
   DBAllocatedStorage:
     Type: Number
     Default: "20" # Maximum allotted storage (GiB) for AWS Free Tier
@@ -45,6 +45,20 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
+  SecretsManager:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: TheButtonSecrets
+      Description: Stores DB Username and Password
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "pokisimp"}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+        ExcludeCharacters: '"@/\'
+      Tags:
+        - Key: AppName
+          Value: AppA
+
   # Serverless
   CreateButtonCounterTableFunction:
     Type: AWS::Serverless::Function
