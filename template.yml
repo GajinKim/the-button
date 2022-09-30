@@ -55,9 +55,6 @@ Resources:
         GenerateStringKey: "password"
         PasswordLength: 30
         ExcludeCharacters: '"@/\'
-      Tags:
-        - Key: AppName
-          Value: AppA
 
   # Serverless
   CreateButtonCounterTableFunction:
