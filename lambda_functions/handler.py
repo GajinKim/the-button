@@ -41,7 +41,7 @@ def get_secret():
 # Configuration endpoints
 endpoint = "thebuttonapp-dbprimaryinstance-i49jimw6ohcf.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
 username = 'pokisimp'
-password = 'ilovepokimane'
+password = 'ilovepokimane123'
 database_name = "the_button"
 bruh = get_secret()['password']
 
