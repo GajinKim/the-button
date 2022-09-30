@@ -38,15 +38,16 @@ def get_secret():
         else:
             secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-    return secret
+    return json.loads(secret)  # returns the secret as dictionary
 
 # Configuration endpoints
+secret = get_secret()
+
 endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
 username = 'notapokisimp'
-password = get_secret()['password']
+password = secret["password"]
 database_name = "the_button"
 
-secret = get_secret()
 # Connection
 connection = pymysql.connect(
     host=endpoint, user=username, password=password, db=database_name
@@ -56,4 +57,4 @@ def create_button_counter_table(event, context):
     cursor = connection.cursor()
     cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
     connection.commit()
-    return {"statusCode": 201, "body": "Successfuly created button_counter table!", "secret_is": secret}
+    return { "statusCode": 201, "body": "Successfuly created button_counter table!" }
