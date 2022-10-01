@@ -70,31 +70,31 @@ Resources:
             Path: /button_counter
             Method: post
 
-  # DeleteButtonCounterTableFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: lambda_functions/
-  #     Handler: handler.delete_button_counter_table
-  #     Runtime: python3.9
-  #     Events:
-  #       ModifyTable:
-  #         Type: Api
-  #         Properties:
-  #           Path: /button_counter
-  #           Method: delete
+  DeleteButtonCounterTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.delete_button_counter_table
+      Runtime: python3.9
+      Events:
+        ModifyTable:
+          Type: Api
+          Properties:
+            Path: /button_counter
+            Method: delete
 
-  # InsertRowIntoButtonCounterTableFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: lambda_functions/
-  #     Handler: handler.insert_click_button_counter_table
-  #     Runtime: python3.9
-  #     Events:
-  #       ModifyTable:
-  #         Type: Api
-  #         Properties:
-  #           Path: /button_counter/click
-  #           Method: post
+  InsertRowIntoButtonCounterTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.insert_click_button_counter_table
+      Runtime: python3.9
+      Events:
+        ModifyTable:
+          Type: Api
+          Properties:
+            Path: /button_counter/click
+            Method: post
 
   # RDS
   DBSubnetGroup:
