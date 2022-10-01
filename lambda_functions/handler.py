@@ -44,8 +44,9 @@ def open_connection():
             j = json.loads(secret)
             password = j['password']
         else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-            password = decoded_binary_secret.password
+            secret  = base64.b64decode(get_secret_value_response['SecretBinary'])
+            j = json.loads(secret)
+            password = j['password']
 
     try:
         if (connection is None):
