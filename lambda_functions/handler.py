@@ -15,7 +15,7 @@ connection = None
 
 def open_connection():
     global connection
-    password = "None123"
+    password = "None"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -32,12 +32,13 @@ def open_connection():
             secret = get_secret_value_response['SecretString']
             j = json.loads(secret)
             password = j['password']
-            return { "statusCode": "123", "body": "secretstring" } # TODO remove
+            return { "statusCode": "111", "body": "secretstring" } # TODO remove
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
             password = decoded_binary_secret.password
-            return { "statusCode": "123", "body": "notsecretstring?" } # TODO remove
+            return { "statusCode": "222", "body": "notsecretstring?" } # TODO remove
     except ClientError as e:
+        return { "statusCode": "333", "body": "bruh" }
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             raise e
         elif e.response['Error']['Code'] == 'InternalServiceErrorException':
