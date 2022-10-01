@@ -45,6 +45,7 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
+  # SecretsManager
   SecretsManager:
     Type: AWS::SecretsManager::Secret
     Properties:
