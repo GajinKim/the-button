@@ -50,6 +50,10 @@ def open_connection():
             password = decoded_binary_secret.password
 
     try:
+        # TODO delete
+        content = "Hello %s" % (password)
+        return { "statusCode": "123", "body": content }
+        
         if (connection is None):
             connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name, connect_timeout=5)
         elif (not connection.open):
