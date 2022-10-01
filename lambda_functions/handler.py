@@ -51,9 +51,9 @@ def open_connection():
 
     try:
         if (connection is None):
-            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name, connect_timeout=5)
         elif (not connection.open):
-            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name, connect_timeout=5)
     except Exception as e:
         raise e
 
@@ -77,16 +77,17 @@ def open_connection():
 #     print(data)
 
 def create_button_counter_table(event, context):
-    # try:
-    open_connection()
-    cursor = connection.cursor()
-    cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
-    connection.commit()
-    # except Exception as e:
-    #     response = { "statusCode": 400, "body": "Failed to create button_counter table!", "message": e }
-    # finally:
-    #     if (connection is not None and connection.open):
-    #         connection.close()
+    try:
+        open_connection()
+        with cursor.cursor() as cursor:
+            cursor = connection.cursor()
+            cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
+            connection.commit()
+    except Exception as e:
+        response = { "statusCode": 400, "body": "Failed to create button_counter table!", "message": e }
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
     response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
     return response
 
