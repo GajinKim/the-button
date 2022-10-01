@@ -1,7 +1,6 @@
 from package import pymysql
+import time, json, base64
 
-import json
-import base64
 import boto3
 from botocore.exceptions import ClientError
 
@@ -107,7 +106,9 @@ def insert_click_button_counter_table(event,context):
     try:
         open_connection()
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('GREEN', '8.8.8.8', 'TEST', '9999-12-31 23:59:59');")
+            datetime = time.strftime("%Y-%m-%d %H:%M:%S")
+            
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `{datetime}`) VALUES ('GREEN', '8.8.8.8', 'TEST', '9999-12-31 23:59:59');")
             connection.commit()
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }
