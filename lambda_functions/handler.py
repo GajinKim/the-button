@@ -28,6 +28,15 @@ def open_connection():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
+        if 'SecretString' in get_secret_value_response:
+            secret = get_secret_value_response['SecretString']
+            j = json.loads(secret)
+            password = j['password']
+            return { "statusCode": "123", "body": "secretstring" } # TODO remove
+        else:
+            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            password = decoded_binary_secret.password
+            return { "statusCode": "123", "body": "notsecretstring?" } # TODO remove
     except ClientError as e:
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             raise e
@@ -39,16 +48,14 @@ def open_connection():
             raise e
         elif e.response['Error']['Code'] == 'ResourceNotFoundException':
             raise e
-    else:
-        if 'SecretString' in get_secret_value_response:
-            secret = get_secret_value_response['SecretString']
-            j = json.loads(secret)
-            password = j['password']
-            return { "statusCode": "123", "body": "secretstring" } # TODO remove
-        else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-            password = decoded_binary_secret.password
-            return { "statusCode": "123", "body": "notsecretstring?" } # TODO remove
+    # else:
+    #     if 'SecretString' in get_secret_value_response:
+    #         secret = get_secret_value_response['SecretString']
+    #         j = json.loads(secret)
+    #         password = j['password']
+    #     else:
+    #         decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+    #         password = decoded_binary_secret.password
 
     try:
         if (connection is None):
