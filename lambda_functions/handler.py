@@ -25,6 +25,7 @@ def open_connection():
     )
 
     try:
+        return { "statusCode": "001", "body": secret_name }
         get_secret_value_response = client.get_secret_value(SecretId=secret_name)
         return { "statusCode": "123", "body": get_secret_value_response }
         if 'SecretString' in get_secret_value_response:
