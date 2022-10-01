@@ -1,6 +1,6 @@
 from package import pymysql
-from urllib.request import urlopen
 import boto3
+import botocore
 import json
 from botocore.exceptions import ClientError
 
@@ -28,6 +28,7 @@ def open_connection():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
+        return { "statusCode": "123", "body": get_secret_value_response }
         if 'SecretString' in get_secret_value_response:
             secret = get_secret_value_response['SecretString']
             j = json.loads(secret)
