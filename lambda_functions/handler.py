@@ -105,7 +105,7 @@ def insert_click_button_counter_table(event,context):
     try:
         open_connection()
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `{datetime.datetime.now()}`) VALUES ('GREEN', '8.8.8.8', 'TEST', '9999-12-31 23:59:59');")
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('GREEN', '8.8.8.8', 'TEST', '{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}');")
             connection.commit()
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }
