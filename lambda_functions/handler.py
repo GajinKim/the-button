@@ -88,7 +88,22 @@ def create_button_counter_table(event, context):
         if (connection is not None and connection.open):
             connection.close()
 
-    response = { "statusCode": 201, "body": "Successfuly created button_counter table!", "ip":  }
+    response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
+    return response
+
+def delete_button_counter_table(event, context):
+    try:
+        open_connection()
+        cursor = connection.cursor()
+        cursor.execute(f"DROP TABLE `the_button`.`button_counter`;")
+        connection.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+
+    response = { "statusCode": 202, "body": "Successfuly deleted button_counter table!" }
     return response
 
 # def add_click(event, context):
