@@ -92,8 +92,8 @@ def create_button_counter_table(event, context):
         with connection.cursor() as cursor:
             cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
             connection.commit()
-    except Exception as e:
-        print(e)
+    except Exception:
+        return { "statusCode": 400, "body": "Failed to create buton_counter_table"}
     finally:
         if (connection is not None and connection.open):
             connection.close()
