@@ -27,19 +27,7 @@ def open_connection():
 
     try:
         get_secret_value_response = client.get_secret_value(SecretId=secret_name)
-        return { "statusCode": "123", "body": get_secret_value_response }
-        if 'SecretString' in get_secret_value_response:
-            secret = get_secret_value_response['SecretString']
-            j = json.loads(secret)
-            password = j['password']
-            return { "statusCode": "111", "body": "secretstring" } # TODO remove
-        else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-            password = decoded_binary_secret.password
-            return { "statusCode": "222", "body": "notsecretstring?" } # TODO remove
     except ClientError as e:
-        error = e.response['Error']['Code']
-        return { "statusCode": "333", "body": error }
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             raise e
         elif e.response['Error']['Code'] == 'InternalServiceErrorException':
@@ -50,14 +38,14 @@ def open_connection():
             raise e
         elif e.response['Error']['Code'] == 'ResourceNotFoundException':
             raise e
-    # else:
-    #     if 'SecretString' in get_secret_value_response:
-    #         secret = get_secret_value_response['SecretString']
-    #         j = json.loads(secret)
-    #         password = j['password']
-    #     else:
-    #         decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-    #         password = decoded_binary_secret.password
+    else:
+        if 'SecretString' in get_secret_value_response:
+            secret = get_secret_value_response['SecretString']
+            j = json.loads(secret)
+            password = j['password']
+        else:
+            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            password = decoded_binary_secret.password
 
     try:
         if (connection is None):
@@ -88,8 +76,7 @@ def open_connection():
 
 def create_button_counter_table(event, context):
     try:
-        asdf = open_connection()
-        return asdf
+        open_connection()
         with connection.cursor() as cursor:
             cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
             connection.commit()
