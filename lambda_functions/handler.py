@@ -1,8 +1,8 @@
 from package import pymysql
-import boto3
 
 import json
 import base64
+import boto3
 from botocore.exceptions import ClientError
 
 # connection configurations
@@ -38,7 +38,8 @@ def open_connection():
             password = decoded_binary_secret.password
             return { "statusCode": "222", "body": "notsecretstring?" } # TODO remove
     except ClientError as e:
-        return { "statusCode": "333", "body": "bruh" }
+        error = e.response['Error']['Code']
+        return { "statusCode": "333", "body": error }
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             raise e
         elif e.response['Error']['Code'] == 'InternalServiceErrorException':
