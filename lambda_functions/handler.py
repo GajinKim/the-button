@@ -1,4 +1,5 @@
 from package import pymysql
+from urllib.request import urlopen
 import boto3
 import json
 from botocore.exceptions import ClientError
@@ -13,7 +14,7 @@ secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSec
 region_name = "us-east-1"
 connection = None
 
-def openConnection():
+def open_connection():
     global connection
     password = "None"
 
@@ -56,11 +57,30 @@ def openConnection():
     except Exception as e:
         raise e
 
+# def country_information():
+#     # declare your IP Address here
+#     ip_address = "127.0.0.1"
+
+#     # get your token from IPinfo's account dashboard
+#     token = ""
+
+#     # create the url for the API, using f-string
+#     url = f"https://www.ipinfo.io/{ip_address}?token={token}"
+
+#     # call the API and save the response
+#     with urlopen(url) as response:
+#         response_content = response.read()
+
+#     # parsing the response 
+#     data = json.loads(response_content)
+
+#     print(data)
+
 def create_button_counter_table(event, context):
     try:
-        openConnection()
+        open_connection()
         cursor = connection.cursor()
-        cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL, `counter` INT NOT NULL, `date` DATETIME NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE, UNIQUE INDEX `counter_UNIQUE` (`counter` ASC) VISIBLE);")
+        cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
         connection.commit()
     except Exception as e:
         print(e)
@@ -68,5 +88,11 @@ def create_button_counter_table(event, context):
         if (connection is not None and connection.open):
             connection.close()
 
-    response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
+    response = { "statusCode": 201, "body": "Successfuly created button_counter table!", "ip":  }
     return response
+
+# def add_click(event, context):
+#     try:
+#         open_connection()
+#         cursor = connection.cursor()
+#         cursor.execute(f"")
