@@ -1,7 +1,7 @@
 from package import pymysql
-import boto3
-import botocore
 import json
+import boto3
+import base64
 from botocore.exceptions import ClientError
 
 # connection configurations
@@ -9,7 +9,7 @@ endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.
 username = 'notapokisimp'
 database_name = "the_button"
 
-secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSecrets-HgAPc3"
+secret_name = "TheButtonSecrets"
 region_name = "us-east-1"
 connection = None
 
@@ -25,9 +25,7 @@ def open_connection():
     )
 
     try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
         return { "statusCode": "123", "body": get_secret_value_response }
         if 'SecretString' in get_secret_value_response:
             secret = get_secret_value_response['SecretString']
