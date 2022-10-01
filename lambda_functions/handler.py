@@ -44,15 +44,13 @@ def open_connection():
             secret = get_secret_value_response['SecretString']
             j = json.loads(secret)
             password = j['password']
+            return { "statusCode": "123", "body": "secretstring" } # TODO remove
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
             password = decoded_binary_secret.password
+            return { "statusCode": "123", "body": "notsecretstring?" } # TODO remove
 
     try:
-        # TODO delete
-        content = "Helloss %s" % (password)
-        return { "statusCode": "123", "body": content }
-
         if (connection is None):
             connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
         elif (not connection.open):
