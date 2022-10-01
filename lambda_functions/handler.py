@@ -1,6 +1,7 @@
 from package import pymysql
+from package import boto3
+
 import json
-import boto3
 import base64
 from botocore.exceptions import ClientError
 
