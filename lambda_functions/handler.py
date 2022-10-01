@@ -76,6 +76,7 @@ def open_connection():
 #     print(data)
 
 def create_button_counter_table(event, context):
+    global connection
     try:
         open_connection()
         with connection.cursor() as cursor:
@@ -84,13 +85,13 @@ def create_button_counter_table(event, context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to create button_counter table" }
     finally:
-        global connection
         if (connection is not None and connection.open):
             connection.commit()
     
     return { "statusCode": 201, "body": "Successfuly created button_counter table!" }
 
 def delete_button_counter_table(event, context):
+    global connection
     try:
         open_connection()
         with connection.cursor() as cursor:
@@ -99,13 +100,13 @@ def delete_button_counter_table(event, context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to delete button_counter table" }
     finally:
-        global connection
         if (connection is not None and connection.open):
             connection.commit()
 
     return { "statusCode": 202, "body": "Successfuly deleted button_counter table!" }
 
 def insert_click_button_counter_table(event,context):
+    global connection
     try:
         open_connection()
         with connection.cursor() as cursor:
@@ -114,7 +115,6 @@ def insert_click_button_counter_table(event,context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }
     finally:
-        global connection
         if (connection is not None and connection.open):
             connection.commit()
     return { "statusCode": 203, "body": "Successfuly inserted row into button_counter table!" }
