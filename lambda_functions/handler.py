@@ -13,7 +13,7 @@ region_name = "us-east-1"
 connection = None
 
 def openConnection():
-    global connection
+    nonlocal connection
     password = "None"
 
     # Create a Secrets Manager client
