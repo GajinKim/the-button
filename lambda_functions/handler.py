@@ -1,10 +1,6 @@
 from package import pymysql
 import boto3
-import botocore
 import json
-import random
-import time
-import os
 from botocore.exceptions import ClientError
 
 # connection configurations
@@ -18,7 +14,7 @@ region_name = "us-east-1"
 connection = None
 
 def openConnection():
-    global connection
+    nonlocal connection
     password = "None"
 
     # Create a Secrets Manager client
