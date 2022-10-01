@@ -112,4 +112,4 @@ def insert_click_button_counter_table(event,context):
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": "Successfuly inserted row into button_counter table!" }
+    return { "statusCode": 203, "body": "Successfuly inserted row into button_counter table!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
