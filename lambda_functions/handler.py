@@ -1,5 +1,5 @@
 from package import pymysql
-from package import boto3
+import boto3
 
 import json
 import base64
