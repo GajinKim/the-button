@@ -84,6 +84,7 @@ def create_button_counter_table(event, context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to create button_counter table" }
     finally:
+        global connection
         if (connection is not None and connection.open):
             connection.commit()
     
@@ -98,6 +99,7 @@ def delete_button_counter_table(event, context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to delete button_counter table" }
     finally:
+        global connection
         if (connection is not None and connection.open):
             connection.commit()
 
@@ -112,6 +114,7 @@ def insert_click_button_counter_table(event,context):
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }
     finally:
+        global connection
         if (connection is not None and connection.open):
             connection.commit()
     return { "statusCode": 203, "body": "Successfuly inserted row into button_counter table!" }

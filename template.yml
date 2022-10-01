@@ -65,7 +65,7 @@ Resources:
       Handler: handler.create_button_counter_table
       Runtime: python3.9
       Events:
-        ModifyTable:
+        CreateTable:
           Type: Api
           Properties:
             Path: /button_counter
@@ -78,7 +78,7 @@ Resources:
       Handler: handler.delete_button_counter_table
       Runtime: python3.9
       Events:
-        ModifyTable:
+        DeleteTable:
           Type: Api
           Properties:
             Path: /button_counter
@@ -91,7 +91,7 @@ Resources:
       Handler: handler.insert_click_button_counter_table
       Runtime: python3.9
       Events:
-        ModifyTable:
+        ClickTable:
           Type: Api
           Properties:
             Path: /button_counter/click
