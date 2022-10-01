@@ -7,7 +7,6 @@ from botocore.exceptions import ClientError
 # connection configurations
 endpoint = "thebutton-dbprimaryinstance-86e1a6iuvxho.ck4gxkbnmkf4.us-east-1.rds.amazonaws.com"
 username = 'notapokisimp'
-password = None
 database_name = "the_button"
 
 secret_name = "arn:aws:secretsmanager:us-east-1:007633048842:secret:TheButtonSecrets-HgAPc3"
@@ -16,7 +15,7 @@ connection = None
 
 def open_connection():
     global connection
-    password = "None"
+    password = "None123"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -51,13 +50,13 @@ def open_connection():
 
     try:
         # TODO delete
-        content = "Hello %s" % (password)
+        content = "Helloss %s" % (password)
         return { "statusCode": "123", "body": content }
-        
+
         if (connection is None):
-            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name, connect_timeout=5)
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
         elif (not connection.open):
-            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name, connect_timeout=5)
+            connection = pymysql.connect(host=endpoint, user=username, password=password, db=database_name)
     except Exception as e:
         raise e
 
@@ -82,7 +81,8 @@ def open_connection():
 
 def create_button_counter_table(event, context):
     try:
-        open_connection()
+        asdf = open_connection()
+        return asdf
         with connection.cursor() as cursor:
             cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
             connection.commit()
@@ -92,9 +92,7 @@ def create_button_counter_table(event, context):
         if (connection is not None and connection.open):
             connection.close()
     
-    content = "Hello %s" % (password)
-    # response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
-    response = { "statusCode": 201, "body": content }
+    response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
     return response
 
 # def delete_button_counter_table(event, context):
