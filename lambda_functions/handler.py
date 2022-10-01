@@ -89,7 +89,7 @@ def create_button_counter_table(event, context):
         if (connection is not None and connection.open):
             connection.close()
     # response = { "statusCode": 201, "body": "Successfuly created button_counter table!" }
-    response = { "statusCode": 201, "body": {password} }
+    response = { "statusCode": 201, "body": str(password) }
     return response
 
 def delete_button_counter_table(event, context):
