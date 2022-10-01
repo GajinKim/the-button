@@ -90,16 +90,16 @@ def create_button_counter_table(event, context):
     return { "statusCode": 201, "body": "Successfuly created button_counter table!" }
 
 def delete_button_counter_table(event, context):
-    try:
-        open_connection()
-        cursor = connection.cursor()
-        cursor.execute(f"DROP TABLE `the_button`.`button_counter`;")
-        connection.commit()
-    except Exception:
-        return { "statusCode": 400, "body": "Unknown error while trying to delete button_counter table" }
-    finally:
-        if (connection is not None and connection.open):
-            connection.close()
+    # try:
+    open_connection()
+    cursor = connection.cursor()
+    cursor.execute(f"DROP TABLE `the_button`.`button_counter`;")
+    connection.commit()
+    # except Exception:
+    #     return { "statusCode": 400, "body": "Unknown error while trying to delete button_counter table" }
+    # finally:
+    #     if (connection is not None and connection.open):
+    #         connection.close()
 
     return { "statusCode": 202, "body": "Successfuly deleted button_counter table!" }
 
