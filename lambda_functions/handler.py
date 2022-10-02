@@ -102,10 +102,12 @@ def delete_button_counter_table(event, context):
     return { "statusCode": 202, "body": "Successfuly deleted button_counter table!" }
 
 def insert_click_button_counter_table(event,context):
+    color = event["pathParameters"].get("color")
+
     try:
         open_connection()
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('GREEN', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}');")
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}');")
             connection.commit()
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }

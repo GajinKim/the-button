@@ -101,7 +101,7 @@ Resources:
         ClickTable:
           Type: Api
           Properties:
-            Path: /button_counter/click
+            Path: /button_counter/click/{color}
             Method: post
 
   # RDS
