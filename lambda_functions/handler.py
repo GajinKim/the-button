@@ -186,4 +186,4 @@ def get_data_click_counter_table(event,context):
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": json.dumps({"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}), "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'} }
+    return { "statusCode": 203, "body": json.dumps({"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}), "headers": {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Credentials" : True, "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE" }}
