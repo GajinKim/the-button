@@ -88,7 +88,46 @@ Resources:
         DeleteTable:
           Type: Api
           Properties:
-            Path: /button_counter
+            Path: /click_counter
+            Method: delete
+
+  CreateClickCounterTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.create_click_counter_table
+      Runtime: python3.9
+      Events:
+        CreateTable:
+          Type: Api
+          Properties:
+            Path: /click_counter/seed
+            Method: post
+
+  SeedClickCounterTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.seed_click_counter_table
+      Runtime: python3.9
+      Events:
+        CreateTable:
+          Type: Api
+          Properties:
+            Path: /click_counter
+            Method: post
+
+  DeleteClickCounterTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.delete_click_counter_table
+      Runtime: python3.9
+      Events:
+        DeleteTable:
+          Type: Api
+          Properties:
+            Path: /click_counter
             Method: delete
 
   InsertRowIntoButtonCounterTableFunction:
@@ -101,7 +140,7 @@ Resources:
         ClickTable:
           Type: Api
           Properties:
-            Path: /button_counter/click/{color}
+            Path: /click/{color}
             Method: post
 
   # RDS

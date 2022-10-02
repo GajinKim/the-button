@@ -101,6 +101,48 @@ def delete_button_counter_table(event, context):
 
     return { "statusCode": 202, "body": "Successfuly deleted button_counter table!" }
 
+def create_click_counter_table(event, context):
+    try:
+        open_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(f"CREATE TABLE `the_button`.`click_counter` (`id` INT NOT NULL, `red_counter` INT NULL DEFAULT 0, `green_counter` INT NULL DEFAULT 0, `blue_counter` INT NULL DEFAULT 0, PRIMARY KEY (`id`),UNIQUE INDEX `id UNIQUE` (`id` ASC) VISIBLE);")
+            connection.commit()
+    except Exception:
+        return { "statusCode": 400, "body": "Unknown error while trying to create click_counter table" }
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+    
+    return { "statusCode": 201, "body": "Successfuly created click_counter table!" }
+
+def seed_click_counter_table(event, context):
+    try:
+        open_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(f"INSERT INTO `the_button`.`click_counter` (`id`, `red_counter`, `green_counter`, `blue_counter`) VALUES ('1', '0', '0', '0');")
+            connection.commit()
+    except Exception:
+        return { "statusCode": 400, "body": "Unknown error while trying to seed click_counter table" }
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+    
+    return { "statusCode": 203, "body": "Successfuly seeded click_counter table!" }
+
+def delete_click_counter_table(event, context):
+    try:
+        open_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(f"DROP TABLE `the_button`.`click_counter`;")
+            connection.commit()
+    except Exception:
+        return { "statusCode": 400, "body": "Unknown error while trying to delete click_counter table" }
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+
+    return { "statusCode": 202, "body": "Successfuly deleted click_counter table!" }
+
 def insert_click_button_counter_table(event,context):
     color = event["pathParameters"].get("color")
 
