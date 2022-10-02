@@ -30,10 +30,10 @@ jobs:
 
       - name: Deploy ${{ env.STACK_NAME }} CloudFormation Stack
         run: |
-          sam deploy --stack-name $STACK_NAME --region $REGION --resolve-s3 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+          sam deploy --stack-name $STACK_NAME_PASCAL_CASE --region $REGION --resolve-s3 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
 
       - name: Add Files to S3 Bucket
         run: |
-          BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text)
+          BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME_PASCAL_CASE --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text)
           echo this is my bucket name: $BUCKET_NAME
           aws s3 cp src s3://$BUCKET_NAME --recursive
