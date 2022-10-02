@@ -7,7 +7,7 @@ function triggerClick(color) {
 
   // update html
   fetch(
-    `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/simulate_click/${color}`,
+    `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/click_counter`,
     { method: "GET" }
   )
     .then((response) => response.json())

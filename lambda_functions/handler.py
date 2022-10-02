@@ -168,7 +168,9 @@ def simulate_click(event,context):
     return { "statusCode": 203, "body": "Successfuly simulated click!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
 
 def get_data_click_counter_table(event,context):
-    red_counter, green_counter, blue_counter = 0
+    red_counter = 0
+    green_counter = 0
+    blue_counter = 0
     try:
         open_connection()
         with connection.cursor() as cursor:
