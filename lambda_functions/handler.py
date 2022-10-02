@@ -157,8 +157,7 @@ def simulate_click(event,context):
             
             # Second update click_counter table
             cursor.execute(f"SELECT color, counter FROM the_button.click_counter")
-            result_set = cursor.fetchall()
-            for row in result_set:
+            for row in cursor:
                 if (row["color"] == color):
                     incremented_value = int(row["counter"]) + 1
                     cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
