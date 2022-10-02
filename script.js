@@ -11,6 +11,8 @@ function updateValues() {
   fetch(
     `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/click_counter`
   )
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+    // .then((response) => response.json())
+    // .then((data) => console.log(data));
+    .then((response) => console.log(response))
+    // .then((data) => console.log(data));
 }
