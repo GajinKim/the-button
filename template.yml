@@ -104,7 +104,7 @@ Resources:
         CreateClickCounterTable:
           Type: Api
           Properties:
-            Path: /click_counter/seed
+            Path: /click_counter
             Method: post
 
   SeedClickCounterTableFunction:
@@ -118,7 +118,7 @@ Resources:
         SeedClickCounterTable:
           Type: Api
           Properties:
-            Path: /click_counter
+            Path: /click_counter/seed
             Method: post
 
   DeleteClickCounterTableFunction:
@@ -146,7 +146,7 @@ Resources:
         InsertRowIntoButtonCounterTable:
           Type: Api
           Properties:
-            Path: /click/{color}
+            Path: /simulate_click/{color}
             Method: post
 
   # RDS
