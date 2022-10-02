@@ -19,3 +19,11 @@ Role: arn:aws:iam::007633048842:role/TheButtonAppLambda
 pip3 install --target ./package boto3
 ```
 
+# Troubleshootings Authentication Access Restriction
+Add the following line to the return statement header for Lambda functions
+```python
+# "headers": {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Credentials" : True, "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE" }
+
+return { "statusCode": 203, "body": json.dumps({"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}), "headers": {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Credentials" : True, "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE" }}
+```
+This enables Cross-Origin Resources Sharing (CORS) so the endpoint becomes public (won't require authentication)
