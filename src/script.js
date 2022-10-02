@@ -1,8 +1,8 @@
 window.onload = updateValues();
 
-function triggerClick(color) {
+async function triggerClick(color) {
   // update database
-  fetch(
+  await fetch(
     `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/simulate_click/${color}`,
     { method: "POST" }
   );
@@ -16,7 +16,7 @@ async function updateValues() {
   document.getElementById("red-counter").innerHTML = "...";
   document.getElementById("green-counter").innerHTML = "...";
   document.getElementById("blue-counter").innerHTML = "...";
-  
+
   // update html
   await fetch(
     `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/click_counter`
