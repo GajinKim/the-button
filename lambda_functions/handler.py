@@ -153,10 +153,10 @@ def simulate_click(event,context):
         open_connection()
         with connection.cursor() as cursor:
             # First insert into button_counter table
-            # cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
             
             # Second update click_counter table
-            # cursor.execute(f"SELECT * FROM the_button.click_counter WHERE color = '{color}'")
+            cursor.execute(f"SELECT * FROM the_button.click_counter WHERE color = '{color}'")
             # color_row = cursor.fetchone()
             # incremented_value = int(color_row["counter"]) + 1
             # cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
