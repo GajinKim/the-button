@@ -71,6 +71,7 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.create_button_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         CreateButtonCounterTable:
           Type: Api
@@ -84,11 +85,12 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.delete_button_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         DeleteButtonCounterTable:
           Type: Api
           Properties:
-            Path: /click_counter
+            Path: /button_counter
             Method: delete
 
   CreateClickCounterTableFunction:
@@ -97,6 +99,7 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.create_click_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         CreateClickCounterTable:
           Type: Api
@@ -110,6 +113,7 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.seed_click_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         SeedClickCounterTable:
           Type: Api
@@ -123,6 +127,7 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.delete_click_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         DeleteClickCounterTable:
           Type: Api
@@ -136,6 +141,7 @@ Resources:
       CodeUri: lambda_functions/
       Handler: handler.insert_click_button_counter_table
       Runtime: python3.9
+      Role: arn:aws:iam::007633048842:policy/SecretsManagerFullRead
       Events:
         InsertRowIntoButtonCounterTable:
           Type: Api
