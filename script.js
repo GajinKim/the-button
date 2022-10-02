@@ -1,6 +1,15 @@
 function triggerClick(color) {
+  // update database
   fetch(
-    `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/button_counter/click/${color}`,
+    `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/simulate_click/${color}`,
     { method: "POST" }
   );
+
+  // update html
+  fetch(
+    `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/simulate_click/${color}`,
+    { method: "GET" }
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data));
 }

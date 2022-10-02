@@ -159,7 +159,6 @@ def simulate_click(event,context):
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = '{color}'")
             incremented_value = int(re.findall('\d+', str(cursor.fetchone()))[0]) + 1 # sanitized counter + 1
             cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
-            # cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '42', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
             connection.commit()
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying simulate click" }
@@ -168,20 +167,25 @@ def simulate_click(event,context):
             connection.close()
     return { "statusCode": 203, "body": "Successfuly simulated click!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
 
-# def simulate_click_for_click_counter_table(event,context):
-#     color = event["pathParameters"].get("color")
-#     try:
-#         open_connection()
-#         with connection.cursor() as cursor:
-#             cursor.execute(f"SELECT color, counter FROM the_button.click_counter")
-#             result_set = cursor.fetchall()
-#             for row in result_set:
-#                 if (row["color"] == color):
-#                     incremented_value = row["counter"] + 1
-#                     cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}' WHERE (`color` = '{color}');")
-#     except Exception:
-#         return { "statusCode": 400, "body": "Unknown error while trying to update color counter in click_counter table" }
-#     finally:
-#         if (connection is not None and connection.open):
-#             connection.close()
-#     return { "statusCode": 203, "body": "Successfuly updated color counter in click_counter_table!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
+def get_data_click_counter_table(event,context):
+    red_counter, green_counter, blue_counter = 0
+    try:
+        open_connection()
+        with connection.cursor() as cursor:
+            # First insert into button_counter table
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
+            
+            # Second update click_counter table
+            cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = 'RED'")
+            red_counter = re.findall('\d+', str(cursor.fetchone()))[0]
+            cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = 'GREEN'")
+            green_counter = re.findall('\d+', str(cursor.fetchone()))[0]
+            cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = 'BLUE'")
+            blue_counter = re.findall('\d+', str(cursor.fetchone()))[0]
+            connection.commit()
+    except Exception:
+        return { "statusCode": 400, "body": "Unknown error while trying simulate click" }
+    finally:
+        if (connection is not None and connection.open):
+            connection.close()
+    return { "statusCode": 203, "body": "Successfuly simulated click!", "data": {"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}}

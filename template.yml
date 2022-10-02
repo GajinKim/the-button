@@ -149,6 +149,20 @@ Resources:
             Path: /simulate_click/{color}
             Method: post
 
+  GetDataClickCounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda_functions/
+      Handler: handler.get_data_click_counter_table
+      Runtime: python3.9
+      Role: arn:aws:iam::007633048842:role/TheButtonAppLambda
+      Events:
+        GetDataClickCounter:
+          Type: Api
+          Properties:
+            Path: /click_counter
+            Method: get
+
   # RDS
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
