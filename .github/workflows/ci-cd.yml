@@ -36,4 +36,4 @@ jobs:
         run: |
           BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME_PASCAL_CASE --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text)
           echo this is my bucket name: $BUCKET_NAME
-          aws s3 cp src s3://$BUCKET_NAME --recursive
+          aws s3 cp s3://$BUCKET_NAME --recursive
