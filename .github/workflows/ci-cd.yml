@@ -30,7 +30,7 @@ jobs:
 
       - name: Deploy ${{ env.STACK_NAME }} CloudFormation Stack
         run: |
-          sam deploy --stack-name $STACK_NAME_PASCAL_CASE --region $REGION --resolve-s3 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+          sam deploy --stack-name $STACK_NAME --region $REGION --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
 
       - name: Add Files to S3 Bucket
         run: |
