@@ -10,6 +10,7 @@ Globals:
       AllowOrigin: "'*'"
 
 Parameters:
+  DomainName: TheButtonApp
   DBUsername:
     NoEcho: "true"
     Type: String
@@ -52,6 +53,28 @@ Metadata:
         default: !Ref DBPassword
 
 Resources:
+  # S3
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref DomainName
+      WebsiteConfiguration:
+        IndexDocument: "index.html"
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+            Effect: Allow
+            Resource:
+              - !Sub "arn:aws:s3:::${Bucket}/*"
+            Principal: "*"
+            Sid: "PublicReadGetObject"
+
   # SecretsManager
   SecretsManager:
     Type: AWS::SecretsManager::Secret
