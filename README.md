@@ -4,7 +4,7 @@
 ### How to resolve `GetSecretValue operation is not authorized` error with AWS Secrets Manager
 Create a new policy and attach it to our relevant roles (lambda and app role). See [here](https://stackoverflow.com/questions/66757368/getsecretvalue-operation-is-not-authorized-error-with-aws-secrets-manager) for stackoverflow post.
 
-1. Go to `IAM > Policies > Create policy > {Create new policy for SecretManager GetSecretValue}
+1. Go to IAM > Policies > Create policy > {Create new policy for SecretManager GetSecretValue}
     1. Call it "SecretManagerFullRead"
 2. Create a new IAM role for Lambdas called "{Name of App} + Lambda" (e.g. TheButtonAppLambda)
     1. Should have two roles `SecretManagerFullRead` and `AWSLambdaBasicExecutionRole`
