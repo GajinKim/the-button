@@ -174,10 +174,6 @@ def get_data_click_counter_table(event,context):
     try:
         open_connection()
         with connection.cursor() as cursor:
-            # First insert into button_counter table
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
-            
-            # Second update click_counter table
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = 'RED'")
             red_counter = re.findall('\d+', str(cursor.fetchone()))[0]
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = 'GREEN'")
@@ -186,8 +182,8 @@ def get_data_click_counter_table(event,context):
             blue_counter = re.findall('\d+', str(cursor.fetchone()))[0]
             connection.commit()
     except Exception:
-        return { "statusCode": 400, "body": "Unknown error while trying simulate click" }
+        return { "statusCode": 400, "body": "Unknown error while trying to fetch data" }
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": "Successfuly simulated click!", "data": {"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}}
+    return { "statusCode": 203, "body": "Successfuly retrieved data!", "data": {"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}}
