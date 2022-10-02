@@ -135,15 +135,15 @@ Resources:
             Path: /click_counter
             Method: delete
 
-  InsertRowIntoButtonCounterTableFunction:
+  SimulateClickFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: lambda_functions/
-      Handler: handler.insert_click_button_counter_table
+      Handler: handler.simulate_click
       Runtime: python3.9
       Role: arn:aws:iam::007633048842:role/TheButtonAppLambda
       Events:
-        InsertRowIntoButtonCounterTable:
+        SimulateClick:
           Type: Api
           Properties:
             Path: /simulate_click/{color}
