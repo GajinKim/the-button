@@ -5,22 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
     <title>The Button</title>
   </head>
   <body>
-    <p id="red-count"></p>
-    <button onclick="triggerClick('RED');">RED</button>
+    <p id="loading-data"></p>
+    <p id="red-counter"></p>
+    <button id="red-button" onclick="triggerClick('RED');">RED</button>
     <br />
     <br />
-    <p id="green-count"></p>
-    <button onclick="triggerClick('GREEN');">GREEN</button>
+    <p id="green-counter"></p>
+    <button id="green-button" onclick="triggerClick('GREEN');">GREEN</button>
     <br />
     <br />
-    <p id="blue-count"></p>
-    <button onclick="triggerClick('BLUE');">BLUE</button>
+    <p id="blue-counter"></p>
+    <button id="blue-button" onclick="triggerClick('BLUE');">BLUE</button>
+    <!-- <br />
     <br />
-    <br />
-    <button onclick="updateValues();">UPDATE VALUES</button>
+    <button onclick="updateValues();">UPDATE VALUES</button> -->
   </body>
 </html>
