@@ -10,7 +10,9 @@ Globals:
       AllowOrigin: "'*'"
 
 Parameters:
-  DomainName: TheButtonApp
+  # DomainName:
+  #   Type: String
+  #   Default: 
   DBUsername:
     NoEcho: "true"
     Type: String
@@ -57,7 +59,7 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref DomainName
+      # BucketName: !Ref DomainName
       WebsiteConfiguration:
         IndexDocument: "index.html"
 
