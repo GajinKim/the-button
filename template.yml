@@ -217,3 +217,8 @@ Resources:
       DBSubnetGroupName: !Ref DBSubnetGroup
       AllocatedStorage: !Ref DBAllocatedStorage
       PubliclyAccessible: True
+
+Outputs:
+  BucketName:
+    Description: S3 Bucket Name
+    Value: !Ref Bucket # Ref returns the bucketname
