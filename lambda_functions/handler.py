@@ -1,5 +1,5 @@
 from package import pymysql
-import datetime, json, base64, socket
+import datetime, json, base64, socket, re
 import boto3
 from botocore.exceptions import ClientError
 
@@ -158,9 +158,9 @@ def simulate_click(event,context):
             # Second update click_counter table
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = '{color}'")
             # result = int(filter(str.isdigit, str(cursor.fetchone())))
-            # result = str(cursor.fetchone())
-            incremented_value = int(filter(str.isdigit, str(cursor.fetchone()))) + 1
-            # return { "statusCode": 111, "body": result }
+            result = re.findall('\d+', str(cursor.fetchone()) )
+            # incremented_value = int(filter(str.isdigit, str(cursor.fetchone()))) + 1
+            return { "statusCode": 111, "body": result }
             cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
             # cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '42', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
             connection.commit()
