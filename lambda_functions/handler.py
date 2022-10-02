@@ -153,22 +153,22 @@ def simulate_click(event,context):
         open_connection()
         with connection.cursor() as cursor:
             # First insert into button_counter table
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
+            # cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
             
             # Second update click_counter table
             cursor.execute(f"SELECT color, counter FROM the_button.click_counter")
             result_set = cursor.fetchall()
             for row in result_set:
                 if (row["color"] == color):
-                    incremented_value = row["counter"] + 1
+                    incremented_value = int(row["counter"]) + 1
                     cursor.execute(f"UPDATE `the_button`.`click_counter` SET `counter` = '{incremented_value}', `last_updated` = '{datetime_now}' WHERE (`color` = '{color}');")
             connection.commit()
     except Exception:
-        return { "statusCode": 400, "body": "Unknown error while trying to insert row into button_counter table" }
+        return { "statusCode": 400, "body": "Unknown error while trying simulate click" }
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": "Successfuly inserted row into button_counter table!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
+    return { "statusCode": 203, "body": "Successfuly simulated click!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
 
 # def simulate_click_for_click_counter_table(event,context):
 #     color = event["pathParameters"].get("color")
