@@ -4,7 +4,9 @@ function triggerClick(color) {
     `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/simulate_click/${color}`,
     { method: "POST" }
   );
+}
 
+function updateValues() {
   // update html
   fetch(
     `https://ce5n80ky5e.execute-api.us-east-1.amazonaws.com/Prod/click_counter`
