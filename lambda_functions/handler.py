@@ -186,4 +186,4 @@ def get_data_click_counter_table(event,context):
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": "Successfuly retrieved data!", "data": {"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter}}
+    return { "statusCode": 203, "body": "Successfuly retrieved data!", "headers": {"red_counter": red_counter, "green_counter": green_counter, "blue_counter": blue_counter} }
