@@ -12,7 +12,7 @@ Create a new policy and attach it to our relevant roles (lambda and app role). S
 ```yaml
 Role: arn:aws:iam::007633048842:role/TheButtonAppLambda
 ```
-** Should do this regardless of whether I need to resolve a secret value authorziation issue or not because this heavily cuts down on the automatically generated lambda IAM roles (because without specifying `Role`: Serverless::Function will just provision one on its own)
+** Should be doing this regardless of whether I need to resolve a secret value authorziation issue or not because this heavily cuts down on the automatically generated lambda IAM roles (because without specifying `Role`: Serverless::Function will just provision one on its own)
 
 ```bash
 # apparently don't need to install boto3, but keeping here for future reference
