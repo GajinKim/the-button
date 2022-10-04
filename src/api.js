@@ -27,6 +27,9 @@ async function updateValues() {
         data["green_counter"],
         data["blue_counter"]
       );
+
+      // update ball colors
+      updateCounters();
     });
   });
 
