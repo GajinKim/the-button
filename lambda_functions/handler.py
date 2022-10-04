@@ -54,30 +54,11 @@ def open_connection():
     except Exception as e:
         raise e
 
-# def country_information():
-#     # declare your IP Address here
-#     ip_address = "127.0.0.1"
-
-#     # get your token from IPinfo's account dashboard
-#     token = ""
-
-#     # create the url for the API, using f-string
-#     url = f"https://www.ipinfo.io/{ip_address}?token={token}"
-
-#     # call the API and save the response
-#     with urlopen(url) as response:
-#         response_content = response.read()
-
-#     # parsing the response 
-#     data = json.loads(response_content)
-
-#     print(data)
-
 def create_button_counter_table(event, context):
     try:
         open_connection()
         with connection.cursor() as cursor:
-            cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `ip_address` VARCHAR(255) NULL, `country` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
+            cursor.execute(f"CREATE TABLE `the_button`.`button_counter` (`id` INT NOT NULL AUTO_INCREMENT, `buton_color` VARCHAR(255) NULL, `date` DATETIME NULL, PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);")
             connection.commit()
     except Exception:
         return { "statusCode": 400, "body": "Unknown error while trying to create button_counter table" }
@@ -153,7 +134,7 @@ def simulate_click(event,context):
         open_connection()
         with connection.cursor() as cursor:
             # First insert into button_counter table
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `ip_address`, `country`, `date`) VALUES ('{color}', '{socket.gethostbyname(socket.gethostname())}', 'TEST', '{datetime_now}');")
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `country`, `date`) VALUES ('{color}', 'TEST', '{datetime_now}');")
             
             # Second update click_counter table
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = '{color}'")
