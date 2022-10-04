@@ -134,7 +134,7 @@ def simulate_click(event,context):
         open_connection()
         with connection.cursor() as cursor:
             # First insert into button_counter table
-            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `country`, `date`) VALUES ('{color}', 'TEST', '{datetime_now}');")
+            cursor.execute(f"INSERT INTO `the_button`.`button_counter` (`buton_color`, `date`) VALUES ('{color}', '{datetime_now}');")
             
             # Second update click_counter table
             cursor.execute(f"SELECT counter FROM the_button.click_counter WHERE color = '{color}'")
@@ -146,7 +146,7 @@ def simulate_click(event,context):
     finally:
         if (connection is not None and connection.open):
             connection.close()
-    return { "statusCode": 203, "body": "Successfuly simulated click!", "headers": {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
+    return { "statusCode": 203, "body": "Successfuly simulated click!", "headers": {'Access-Control-Allow-Origin': '*',  "Access-Control-Allow-Credentials" : True, 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', }}
 
 def get_data_click_counter_table(event,context):
     red_counter = 0
